@@ -22,7 +22,7 @@ from src.usmle.models.usmle_qtn_a import UsmleQtnAns
 from src.usmle.models.usmle_whl_qtn import UsmleWholeQtn
 from src.usmle.models.usmle_distr import UsmleDistr
 from src.usmle.gen_order import gen_order
-OPENAIKEY = "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"
+OPENAIKEY = ""
 
 class UsmleQgenTaskInitLgc(Prompt):
     def __init__(self, prompt_examples: str, engine: str) -> None:
