@@ -31,7 +31,7 @@ def autofb_usmleqgen(clinical_note: str, keypoint: str, topic: str, max_attempts
     #task_qa = UsmleQgenTask
     # getting feedback
     task_answer = UsmleQgenAnswer(
-        engine= "gpt-4",prompt_examples="data/prompt/usmle/answer.jsonl"
+        engine= ENGINE,prompt_examples="data/prompt/usmle/answer.jsonl"
     )
     task_feedback = UsmleQgenFeedback(
         engine=ENGINE, prompt_examples="data/prompt/usmle/feedback.jsonl", reasoning_rubrics="data/prompt/usmle/reasoning_rubrics.jsonl"
@@ -41,7 +41,7 @@ def autofb_usmleqgen(clinical_note: str, keypoint: str, topic: str, max_attempts
     )
     # iteratively improving the sentence
     task_iterate = UsmleQgenTaskIterate(
-        engine="gpt-4", prompt_examples="data/prompt/usmle/iterate.jsonl"
+        engine=ENGINE, prompt_examples="data/prompt/usmle/iterate.jsonl"
     )
 
     # Initialize the task
@@ -65,6 +65,7 @@ def autofb_usmleqgen(clinical_note: str, keypoint: str, topic: str, max_attempts
         print(f"{n_attempts} GEN> Context: {context}\nQuestion: {question}\nCorrect answer:{correct_answer}\nDistractor options:{distractor_options}")
 
         context_feedback, context_score, question_feedback, question_score, reasoning_feedback, reasoning_score, correct_answer_feedback, correct_answer_score, distractor_option_feedback, distractor_option_score = task_feedback_lgc(
+        engine = ENGINE,
         clinical_note=clinical_note,
         keypoint=keypoint,
         topic=topic,
