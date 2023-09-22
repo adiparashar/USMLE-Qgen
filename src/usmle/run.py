@@ -168,6 +168,8 @@ def run_iter(inputs_file_path: str, max_attempts: int = 4):
         test_df["content_to_fb"] = None
         test_df["content_to_fb"] = test_df["content_to_fb"].astype(object)
         test_df["status"] = None
+        #this is a test comment
+
     else:
         print("Status column already exists! Looks like you're trying to do a re-run")
         print(test_df["status"].value_counts())
@@ -205,7 +207,8 @@ def run_iter(inputs_file_path: str, max_attempts: int = 4):
 
 
 def run_multi_sample(inputs_file_path: str, n_samples: int = 4):
-    print(inputs_file_path)
+    # print(inputs_file_path)
+    #this should work
     test_df = pd.read_json(inputs_file_path, lines=True, orient="records")
 
     is_rerun = "status" in test_df.columns
