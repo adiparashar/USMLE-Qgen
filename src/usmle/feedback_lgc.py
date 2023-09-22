@@ -20,7 +20,7 @@ from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
-OPENAIKEY = "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"
+OPENAIKEY = ""
 
 class UsmleQgenFeedbackLgc(Prompt):
     def __init__(self, engine: str, prompt_examples: str,rubrics_path:str, max_tokens: int = 2048) -> None:
