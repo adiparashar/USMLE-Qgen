@@ -19,7 +19,6 @@ GPT3 = "text-davinci-003"
 CHATGPT = "gpt-3.5-turbo"
 ENGINE = "gpt-4"
 
-
 @retry_parse_fail_prone_cmd
 def autofb_usmleqgen(clinical_note: str, keypoint: str, topic: str, max_attempts: int) -> str:
 
@@ -65,7 +64,6 @@ def autofb_usmleqgen(clinical_note: str, keypoint: str, topic: str, max_attempts
         print(f"{n_attempts} GEN> Context: {context}\nQuestion: {question}\nCorrect answer:{correct_answer}\nDistractor options:{distractor_options}")
 
         context_feedback, context_score, question_feedback, question_score, reasoning_feedback, reasoning_score, correct_answer_feedback, correct_answer_score, distractor_option_feedback, distractor_option_score = task_feedback_lgc(
-        engine = ENGINE,
         clinical_note=clinical_note,
         keypoint=keypoint,
         topic=topic,
@@ -161,7 +159,7 @@ def run_cmd():
 
 
 def run_iter(inputs_file_path: str, max_attempts: int = 4):
-    test_df = pd.read_json(inputs_file_path, lines=True, orient="records")
+    test_df = pd.read_json(inputs_file_path, orient="records")
     # add new columns  content_to_fb of type object, and status of type string
 
     is_rerun = "status" in test_df.columns

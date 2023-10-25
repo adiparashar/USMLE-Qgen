@@ -22,7 +22,12 @@ from src.usmle.models.usmle_qtn_a import UsmleQtnAns
 from src.usmle.models.usmle_whl_qtn import UsmleWholeQtn
 from src.usmle.models.usmle_distr import UsmleDistr
 from src.usmle.gen_order import gen_order
-OPENAIKEY = ""
+from dotenv import load_dotenv
+import os
+load_dotenv(dotenv_path='usmle.env')
+
+OPENAIKEY = os.getenv("OPENAIKEY")
+print(OPENAIKEY)
 
 class UsmleQgenTaskInitLgc(Prompt):
     def __init__(self, prompt_examples: str, engine: str) -> None:
@@ -35,11 +40,12 @@ class UsmleQgenTaskInitLgc(Prompt):
         self.engine = engine
         #self.setup_prompt_from_examples_file(prompt_examples)
     def retrieve_sim_questions_colbert(self,content,k:int):
+        print(OPENAIKEY)
         p = {'query':content, 'k':k }
         r = requests.get( 'https://bio-nlp.org/colbertmimic/api/search',params=p)
         res_json = r.json()
         print(res_json)
-        qbank_df = pd.read_csv('data/US/USMLE_qbank_whlqtn.csv')
+        qbank_df = pd.read_csv('data/inputs/USMLE_qbank_whlqtn.csv')
 
         qbank_topk = res_json['topk']
         for item in qbank_topk:
@@ -88,8 +94,8 @@ class UsmleQgenTaskInitLgc(Prompt):
             examples=cn_sim_examples, 
             example_prompt=cn_sim_ex_prompt, 
             suffix="Generate a context(not the question,in the format Context: ) based on the given topic from the clinical note :\nClinical Note: {clinical_note}\nTopic: {topic}\nKeypoint: {keypoint}", 
-            input_variables=["clinical_note","topic","keypoint"]
-        )
+            input_variables=["clinical_note","topic","keypoint"])
+            
         context_chain = LLMChain(llm=llm, prompt=context_prompt)
         context_output = context_chain.run({"clinical_note" : clinical_note,
             "keypoint" : keypoint,
