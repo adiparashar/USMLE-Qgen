@@ -27,6 +27,8 @@ import os
 load_dotenv(dotenv_path='usmle.env')
 
 OPENAIKEY = os.getenv("OPENAIKEY")
+OPENAIORG = os.getenv("OPENAIORG")
+
 print(OPENAIKEY)
 
 class UsmleQgenTaskInitLgc(Prompt):
@@ -80,7 +82,7 @@ class UsmleQgenTaskInitLgc(Prompt):
         x = ast.literal_eval(x)
         return x
     def generate_step_by_step(self,clinical_note: str,keypoint:str,topic:str) -> str:
-        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY)
+        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
         ## Retrieving USMLE questions similar to the clinical note and topic from the qbank
         cn_sim_instruction = "Represent the following clinical note for clustering, for retrieving USMLE questions related to the topic '{topic}': "
         cn_sim_examples = self.retrieve_sim_questions_colbert(clinical_note, 3)
@@ -173,7 +175,7 @@ class UsmleQgenTaskInitLgc(Prompt):
         print(f"Context: {context}\nQuestion: {question}\nCorrect answer: {correct_answer}\nDistractor options:{distractor_options}")
         return context,question,correct_answer,distractor_options
     def generate_whole_qtn(self, clinical_note: str,keypoint:str,topic:str) -> str:
-        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY)
+        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
         sim_examples = self.retrieve_sim_questions_colbert(clinical_note,  3)
         print(sim_examples)
         sim_ex_prompt = PromptTemplate(
@@ -199,7 +201,7 @@ class UsmleQgenTaskInitLgc(Prompt):
         qa_output = ast.literal_eval(output)
         return qa_output['context'],qa_output['question'],qa_output['correct_answer'],qa_output['distractor_options']
     def generate_distractor_last(self, clinical_note: str,keypoint:str,topic:str) -> str:
-        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY)
+        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
         qa_sim_instruction = "Represent the following clinical note for clustering, for retrieving USMLE questions related to the topic '{topic}': "
         qa_sim_examples = self.retrieve_sim_questions_colbert(clinical_note,  3)
         #print(qa_sim_examples)

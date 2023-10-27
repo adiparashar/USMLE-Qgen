@@ -29,13 +29,13 @@ import os
 load_dotenv(dotenv_path='usmle.env')
 
 OPENAIKEY = os.getenv("OPENAIKEY")
-
+OPENAIORG = os.getenv("OPENAIORG")
 @retry_parse_fail_prone_cmd
 # def usmlekpgen(self,engine: str) -> str:
 #     self.engine = ENGINE
 #     return content_to_fb_ret
 def gen_topics(clinical_note:str,examples_path:str):
-    llm = ChatOpenAI(model=ENGINE, temperature=0.7,openai_api_key=OPENAIKEY)
+    llm = ChatOpenAI(model=ENGINE, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
     with open(examples_path) as f:
         fs_dict = json.load(f)
     print(fs_dict)

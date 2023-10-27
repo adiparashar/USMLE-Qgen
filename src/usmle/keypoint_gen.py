@@ -25,6 +25,7 @@ import os
 load_dotenv(dotenv_path='usmle.env')
 
 OPENAIKEY = os.getenv("OPENAIKEY")
+OPENAIORG = os.getenv("OPENAIORG")
 
 CODEX = "code-davinci-002"
 GPT3 = "text-davinci-003"
@@ -44,7 +45,7 @@ def retrieve_sim_keypoints_colbert(content,k:int):
         print(qbank_topk)
         return qbank_topk  
 def gen_keypoints(clinical_note:str,topic:str,examples_path:str):
-    llm = ChatOpenAI(model=ENGINE, temperature=0.7,openai_api_key=OPENAIKEY)
+    llm = ChatOpenAI(model=ENGINE, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
     ## Retrieving USMLE questions similar to the clinical note and topic from the qbank
     retrieved_kp = retrieve_sim_keypoints_colbert(clinical_note, 1)
     retrieved_kp_score = retrieved_kp['score']

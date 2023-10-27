@@ -24,6 +24,7 @@ import os
 load_dotenv(dotenv_path='usmle.env')
 
 OPENAIKEY = os.getenv("OPENAIKEY")
+OPENAIORG = os.getenv("OPENAIORG")
 
 class UsmleQgenFeedbackLgc(Prompt):
     def __init__(self, engine: str, prompt_examples: str,rubrics_path:str, max_tokens: int = 2048) -> None:
@@ -77,7 +78,7 @@ class UsmleQgenFeedbackLgc(Prompt):
             Reasoning: {reasoning}
             Distractor options: {distractor_options}
         """
-        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY)
+        llm = ChatOpenAI(model=self.engine, temperature=0.7,openai_api_key=OPENAIKEY,openai_organization=OPENAIORG)
         with open(examples_path) as f:
             dictt = json.load(f)
         ex_comp_fb = {k:dictt[k] for k in dictt.keys() if k.lower().find(comp_name) != -1}

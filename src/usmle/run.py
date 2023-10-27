@@ -161,7 +161,7 @@ def run_cmd():
 def run_iter(inputs_file_path: str, max_attempts: int = 4):
     test_df = pd.read_json(inputs_file_path, orient="records")
     # add new columns  content_to_fb of type object, and status of type string
-
+    # test_df = test_df[14:]
     is_rerun = "status" in test_df.columns
     if not is_rerun:
         test_df["content_to_fb"] = None
